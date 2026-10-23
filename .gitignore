@@ -3,10 +3,6 @@
 __MACOSX/
 **/__MACOSX/
 assets/cities/σ*/
-__pycache__/
-*.py[cod]
-admin/config.json
-admin/backups/
 .venv/
 node_modules/
 .npm-cache/

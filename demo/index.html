@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Demos · Xu Wang</title>
-<meta name="description" content="Xu Wang 的交互实验小站，点击即可预览每个 Demo。">
+<title>Demos · Zhengxiang Ma</title>
+<meta name="description" content="Zhengxiang Ma 的交互实验小站，点击即可预览每个 Demo。">
 <style>
   :root{
     color-scheme: light dark;
@@ -63,7 +63,7 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="brand">Demos · Xu Wang</div>
+    <div class="brand">Demos · Zhengxiang Ma</div>
     <a class="back" href="/" rel="noopener noreferrer">← 返回主页</a>
   </header>
 
@@ -75,8 +75,8 @@
     <div class="grid" id="grid"><!-- 卡片由 JS 生成 --></div>
 
   <footer>
-    <span>© <span id="yr"></span> Xu Wang</span>
-    <a class="back" href="/" rel="noopener noreferrer">wangxu.life</a>
+    <span>© <span id="yr"></span> Zhengxiang Ma</span>
+    <a class="back" href="/" rel="noopener noreferrer">Zhengxiang Ma</a>
   </footer>
 </div>
 
@@ -104,16 +104,16 @@ const DEMOS = [
   {title:"重力回声 · Gravity Echo", tag:"游戏", desc:"进入引力场，捕获敌人弹幕，召回过去的自己。宇宙生存游戏。", url:"/demo/gravity-echo.html"},
   {title:"琉光屿 · Glow Isle", tag:"治愈", desc:"流光之岛，宁静小岛。", url:"/demo/aurelia.html"},
   {title:"夜幕疾行 · Dusk Sprint", tag:"游戏", desc:"夜幕疾行突围 · V3。", url:"/demo/aurelia-v3.html"},
-  {title:"石榴 SeeWay", tag:"RBCC", desc:"最后 50 米，带你找到车。叫车、出发、近距引导、现场互认与核验。", url:"/demo/seeway.html"},
-  {title:"RBCC", tag:"RBCC", desc:"港科广红鸟挑战营。", url:"/rbcc/"},
   {title:"Marble Orchestra", tag:"治愈", desc:"弹珠音乐盒 · 看彩珠滚落，奏出清脆乐章。", url:"/demo/marble-orchestra.html"},
   {title:"A Little Island", tag:"治愈", desc:"风里的小岛 · 循着风的方向，去听一座岛。", url:"/demo/wind-island.html"},
   {title:"Pocket Cosmos", tag:"游戏", desc:"引力游乐场 · 在指尖宇宙中抛射星辰、捕获轨迹。", url:"/demo/pocket-cosmos.html"},
   {title:"Embodied Studio", tag:"研究", desc:"三维具身智能实验室 · 感知决策行动，含机器人摄像头与雷达。", url:"/demo/embodied-studio.html"},
   {title:"Embodied Lab", tag:"研究", desc:"具身智能交互实验室 · 二维导航、强化学习与机械臂控制。", url:"/demo/embodied-lab.html"},
-  {title:"IELTS Studio", tag:"雅思", desc:"雅思学习工作台。", url:"/demo/ielts-studio.html"}
+  {title:"Bead Studio", tag:"治愈", desc:"手串设计台 · 设计、排列并导出属于你自己的手串。", url:"/demo/bead-studio.html"},
+  {title:"Mystic Bazi", tag:"治愈", desc:"八字排盘 · 起一张命盘，让象意徐徐展开。", url:"/demo/mystic-bazi.html"},
+  {title:"Campus Tour", tag:"治愈", desc:"校园漫游 · 化身小小访客，漫步校园。", url:"/demo/campus-tour.html"}
 ];
-const CATEGORIES = ["研究","游戏","治愈","RBCC","雅思"];
+const CATEGORIES = ["研究","游戏","治愈"];
 const grid = document.getElementById('grid');
 const mask = document.getElementById('mask');
 const frame = document.getElementById('p-frame');
