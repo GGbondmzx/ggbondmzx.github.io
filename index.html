@@ -648,9 +648,19 @@
     .photo-carousel .slide img{
       height: 200px; width: auto; display: block;
       border: 1px solid var(--hairline-soft); background: var(--paper);
+      cursor: zoom-in;
     }
+    .cert-carousel .slide img{ cursor: zoom-in; }
     @media (max-width: 720px){
-      .photo-carousel .slide img{ height: 140px; }
+      .carousel{ padding: 6px; }
+      .carousel-track{ gap: 8px; }
+      .photo-carousel .slide img{ height: 150px; }
+      .car-btn{ width: 28px; height: 28px; font-size: 16px; }
+    }
+    @media (max-width: 480px){
+      .photo-carousel .slide img{ height: 128px; }
+      .cert-carousel .slide{ flex-basis: 140px; }
+      .cert-carousel .slide img{ height: 110px; }
     }
 
     /* 联系提示与二维码弹层 */
@@ -687,6 +697,51 @@
     }
     .qr-card img{ width: 280px; max-width: 78vw; display: block; border-radius: 8px; }
     .qr-card p{ margin: 10px 0 0; font-size: 13px; color: #6B6258; }
+
+    /* ===== 图片灯箱（轮播点击放大） ===== */
+    .lightbox{
+      position: fixed; inset: 0; background: rgba(20,16,12,.82);
+      display: none; align-items: center; justify-content: center; z-index: 9999;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    }
+    .lightbox.show{ display: flex; }
+    .lightbox-img{
+      max-width: 92vw; max-height: 82vh;
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+      border-radius: 6px; object-fit: contain;
+      background: #000;
+    }
+    .lightbox-close{
+      position: absolute; top: 18px; right: 18px;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.4);
+      background: rgba(255,255,255,.14); color: #fff;
+      font-size: 22px; line-height: 1; cursor: pointer;
+      display: grid; place-items: center;
+    }
+    .lightbox-close:hover{ background: rgba(255,255,255,.28); }
+    .lightbox-nav{
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.12); color: #fff;
+      font-size: 28px; line-height: 1; cursor: pointer;
+      display: grid; place-items: center;
+    }
+    .lightbox-nav:hover{ background: rgba(255,255,255,.26); }
+    .lightbox-prev{ left: 16px; }
+    .lightbox-next{ right: 16px; }
+    .lightbox-counter{
+      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,.78); font-size: 13px; letter-spacing: .5px;
+      font-family: var(--font-mono);
+    }
+    @media (max-width: 620px){
+      .lightbox-close{ width: 38px; height: 38px; top: 12px; right: 12px; }
+      .lightbox-nav{ width: 42px; height: 42px; font-size: 22px; }
+      .lightbox-prev{ left: 8px; }
+      .lightbox-next{ right: 8px; }
+    }
 
     /* 案例查看按钮与画廊 */
     .case-btn{
@@ -1373,16 +1428,12 @@ html:lang(zh-CN) .zaoz-directions dt { font-family: var(--font-cn-body); }
           <button class="car-btn car-prev" type="button" data-dir="-1" aria-label="Previous photo">‹</button>
           <button class="car-btn car-next" type="button" data-dir="1" aria-label="Next photo">›</button>
           <div class="carousel-track">
-            <div class="slide"><img src="/assets/optimized/photos/photo1.webp" alt="photo 1" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo2.webp" alt="photo 2" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo3.webp" alt="photo 3" loading="lazy" /></div>
-            <div class="slide"><img src="/assets/optimized/photos/photo7.webp" alt="photo 7" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo8.webp" alt="photo 8" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo11.webp" alt="photo 11" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo12.webp" alt="photo 12" loading="lazy" /></div>
-            <div class="slide"><img src="/assets/optimized/photos/photo13.webp" alt="photo 13" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo15.webp" alt="photo 15" loading="lazy" /></div>
-            <div class="slide"><img src="/assets/optimized/photos/photo16.webp" alt="photo 16" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo17.webp" alt="photo 17" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo18.webp" alt="photo 18" loading="lazy" /></div>
             <div class="slide"><img src="/assets/optimized/photos/photo19.webp" alt="photo 19" loading="lazy" /></div>
@@ -1881,6 +1932,75 @@ html:lang(zh-CN) .zaoz-directions dt { font-family: var(--font-cn-body); }
       io.observe(carouselEl);
     }
     Array.prototype.forEach.call(document.querySelectorAll(".carousel"), initCarousel);
+
+    /* ============== 图片灯箱（轮播点击放大） ============== */
+    (function(){
+      var lb = document.createElement('div');
+      lb.className = 'lightbox';
+      lb.innerHTML =
+        '<button class="lightbox-close" type="button" aria-label="关闭">✕</button>' +
+        '<img class="lightbox-img" alt="" />' +
+        '<button class="lightbox-nav lightbox-prev" type="button" aria-label="上一张">‹</button>' +
+        '<button class="lightbox-nav lightbox-next" type="button" aria-label="下一张">›</button>' +
+        '<span class="lightbox-counter"></span>';
+      document.body.appendChild(lb);
+
+      var lbImg = lb.querySelector('.lightbox-img');
+      var lbCounter = lb.querySelector('.lightbox-counter');
+      var currentList = [];
+      var currentIdx = 0;
+
+      function render(){
+        if (!currentList.length) return;
+        lbImg.src = currentList[currentIdx];
+        lbCounter.textContent = (currentIdx + 1) + ' / ' + currentList.length;
+      }
+      function show(list, idx){
+        currentList = list;
+        currentIdx = idx;
+        render();
+        lb.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function hide(){
+        lb.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      function nav(d){
+        if (!currentList.length) return;
+        currentIdx = (currentIdx + d + currentList.length) % currentList.length;
+        render();
+      }
+
+      lb.addEventListener('click', function(ev){
+        if (ev.target === lb || ev.target.classList.contains('lightbox-close')) hide();
+      });
+      lb.querySelector('.lightbox-prev').addEventListener('click', function(ev){ ev.stopPropagation(); nav(-1); });
+      lb.querySelector('.lightbox-next').addEventListener('click', function(ev){ ev.stopPropagation(); nav(1); });
+
+      document.addEventListener('keydown', function(ev){
+        if (!lb.classList.contains('show')) return;
+        if (ev.key === 'Escape') hide();
+        else if (ev.key === 'ArrowLeft') nav(-1);
+        else if (ev.key === 'ArrowRight') nav(1);
+      });
+
+      document.querySelectorAll('.carousel').forEach(function(carousel){
+        carousel.addEventListener('click', function(ev){
+          var img = ev.target.closest('.slide img');
+          if (!img) return;
+          var origSlides = carousel.querySelectorAll('.carousel-track > .slide:not([aria-hidden="true"])');
+          var list = Array.prototype.map.call(origSlides, function(s){
+            var i = s.querySelector('img');
+            return i ? i.src : '';
+          }).filter(Boolean);
+          if (!list.length) return;
+          var idx = list.indexOf(img.src);
+          if (idx < 0) idx = 0;
+          show(list, idx);
+        });
+      });
+    })();
 
     /* ============== Toggle rows ============== */
     function toggleRows(selector, toggleId, displayMode){
